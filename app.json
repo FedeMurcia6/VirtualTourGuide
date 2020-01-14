@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "VirtualTourGuide",
+    "slug": "AwesomeProject",
+    "privacy": "public",
+    "sdkVersion": "36.0.0",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier" : "uade.vitualtourguide",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAx5XjZ8R5qWBfCBgs1jNjl4MgUsJb-DQk"
+      }
+    },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "description": "",
+    "scheme": "exp657f0c39b84f429cbe769b455ac9fc00",
+    "android": {
+      "package": "uade.vitualtourguide",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAx5XjZ8R5qWBfCBgs1jNjl4MgUsJb-DQk"
+        }
+      }
+    }
+  }
+}
