@@ -7,32 +7,32 @@ import LocationGet from '../components/LocationGet.js';
 import {  StackNavigator,} from 'react-navigation';
 
 
-
-export default function LinksScreen(props) {
-  return (
-      <ScrollView style={{flex:1}} >
-        <View style={{flex:1,flexDirection:'row'}}>
-          <TouchableOpacity style={{flex:2, height:90,alignItems: 'center',justifyContent: 'center' }} onPress={()=> {
-            LinksScreen.navigation.navigate('Settings')
-          }} >
-            <Text> Add Place </Text>
-             <Text> IMG </Text>
-          </TouchableOpacity>
-          <Button  style={{flex:2, height:90,alignItems: 'center',justifyContent: 'center' }} 
-            title="Go to Settings"
-            onPress={() => navigation.navigate('Settings')}
-          />
-        </View>
-        <LocationGet/>
-      </ScrollView> 
-  );
+export default class LinksScreen extends React.Component {
+    render() {
+      return (
+          <ScrollView style={styles.scroll} >
+            <View style={styles.buttonContainer} >
+              <TouchableOpacity style={{flex:2, height:90,alignItems: 'center',justifyContent: 'center' }} onPress={()=> {
+                this.props.navigation.navigate('Settings')
+              }} >
+                <Text> Add Place </Text>
+                 <Text> IMG </Text>
+              </TouchableOpacity>
+              <Button  style={{flex:2, height:90,alignItems: 'center',justifyContent: 'center' }} 
+                title="Go to Settings"
+                onPress={() => navigation.navigate('Settings')}
+              />
+            </View>
+            <LocationGet/>
+          </ScrollView> 
+      );
+    }
 }
 
-  static navigationOptions = ({ navigation }) => {
-      return {
-      title: navigation.navigate ('Settings'),
-    };
-  };
+LinksScreen.navigationOptions = {
+  title: 'Maps',
+
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -40,6 +40,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex:1,
+    flexDirection:'row'
+  },
+  scroll: {
+    flex:1,
   },
   mapStyle: {
     width: Dimensions.get('window').width,

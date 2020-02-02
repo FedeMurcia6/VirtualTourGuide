@@ -16,6 +16,25 @@ export default class LocationGet extends Component {
     markers:[],
   };
 
+    render() {
+
+    return (
+        <View style={styles.container}>
+          <MapView style={styles.mapStyle} region={this.state.currentLocation} showsUserLocation={true}>
+            {this.state.markers.length>0}
+              {this.state.markers.map((marker, index) => (
+                <Marker key={marker.id}
+                  identifier={marker.id}
+                  coordinate={marker.latLng}
+                  title={marker.title}
+                  description={marker.desc}
+                />
+              ))}
+          </MapView>
+        </View>
+    );
+  }
+
 
   UNSAFE_componentWillMount () {
     /*var db = Firebase.firestore();
@@ -80,24 +99,6 @@ export default class LocationGet extends Component {
   
   };
 
-  render() {
-
-    return (
-        <View style={styles.container}>
-          <MapView style={styles.mapStyle} region={this.state.currentLocation} showsUserLocation={true}>
-            {this.state.markers.length>0}
-              {this.state.markers.map((marker, index) => (
-                <Marker key={marker.id}
-                  identifier={marker.id}
-                  coordinate={marker.latLng}
-                  title={marker.title}
-                  description={marker.desc}
-                />
-              ))}
-          </MapView>
-        </View>
-    );
-  }
 }
 
 const styles = StyleSheet.create({

@@ -35,8 +35,8 @@ import * as Permissions from 'expo-permissions';
       Firebase.database().ref('poi/'+id).set({
         name: this.state.placeName,
         desc: this.state.placeDesc,
-        latitud: Number('-34.600978'),
-        longitud: Number('-58.383203'),
+        latitud: Number(this.state.placeLat),
+        longitud: Number(this.state.placeLong),
         realDimensions: Number(this.state.physicalWidth),
       })
 

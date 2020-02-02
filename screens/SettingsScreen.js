@@ -10,6 +10,6 @@ export default function SettingsScreen() {
   return (<AddPlace />);
 }
 
-  static navigationOptions = {
+SettingsScreen.navigationOptions = {
   title: 'Add Place',
 };
