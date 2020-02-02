@@ -25,8 +25,7 @@ TourStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios'? `ios-pin${focused ? '' : '-outline'}` : 'md-pin'
-      }
+      name={Platform.OS === 'ios'? `ios-pin${focused ? '' : '-outline'}` : 'md-pin'}
     />
   ),
 };
@@ -42,6 +41,7 @@ const LinksStack = createStackNavigator(
 
 LinksStack.navigationOptions = {
   tabBarLabel: 'Maps',
+  
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-globe' : 'md-globe'} />
   ),

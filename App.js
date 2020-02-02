@@ -52,6 +52,7 @@ function handleLoadingError(error) {
 
 function handleFinishLoading(setLoadingComplete) {
   setLoadingComplete(true);
+    console.log('NAVIGATION: '+ props.navigation);
 }
 
 const styles = StyleSheet.create({

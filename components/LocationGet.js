@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Text, View, StyleSheet, ScrollView, Dimensions, ListItem} from 'react-native';
+import { Platform, Text, View, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -13,31 +13,35 @@ export default class LocationGet extends Component {
   state = {
     currentLocation: null,
     errorMessage: null,
-    markers:[{title: 'a', latLng: {latitude: 1, longitude: 1,}}],
+    markers:[],
   };
 
 
-  componentWillMount() {
-    console.log('componentWillMount');
-    var database = Firebase.database();
-    var name = null;
-    var latitud = null;
-    var longitud = null;
-
-    database.ref('poi/' + 'buenosairesobelisco').on('value', (snapshot) => {
-      name = snapshot.val().name;
-      latitud = snapshot.val().latitud;
-      longitud = snapshot.val().longitud;
+  UNSAFE_componentWillMount () {
+    /*var db = Firebase.firestore();
+    let docRef = db.collection('pois').doc('1');
+    let obelisco = docRef.set({
+      name: 'Obelisco',
+      desc: 'Obelisco de BA',
+      latitude: -34.6036,
+      longitude: -58.381527
     });
-    console.log(name);
+    console.log('guardo store');
 
-    this.setState({
-      markers: [{title: name, latLng: {latitude: latitud, longitude: longitud,}},...this.state.markers,]
-    })
+    Firebase.database().ref('poi').push().set({
+      name: 'Planetario',
+      latitud:-34.575247,
+      longitud: -58.417351
+    })*/
 
-    for (var i = this.state.markers.length - 1; i >= 0; i--) {
-      console.log("marker"+i+": " + this.state.markers[i].title+" - LatLong:"+this.state.markers[i].latLng.latitude +" - "+this.state.markers[i].latLng.longitude);
-    }
+/*    Firebase.database().ref('poi/-34603726-58381548').set({
+        name: 'Obelisco',
+        desc: 'Obelisco de buenos aires',
+        latitud: -34.603726,
+        longitud: -58.381548,
+        realDimensions: 4,
+      })*/
+
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
@@ -45,48 +49,53 @@ export default class LocationGet extends Component {
     } else {
       this._getLocationAsync();
     }
-
   }
 
   _getLocationAsync = async () => {
-    console.log('getLocAsync');
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
         errorMessage: 'Permission to access location was denied',
       });
     }
-
     let location = await Location.getCurrentPositionAsync({});
-    this.setState({currentLocation: { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.01522, longitudeDelta: 0.00821 }});
+
+    var database = Firebase.database();
+    var newMarkers = [...this.state.markers];
+    database.ref('poi').on('value', (pointsInterest) => {
+      var keys = Object.keys(pointsInterest.val());
+      for (var i =  0; i < keys.length;i++) {
+        database.ref('poi/'+keys[i]).on('value', (places) => {
+            //console.log('KEY/VALUE='+keys[i]+' / '+places.val().name);
+            if(places!==null) {
+              newMarkers=[...newMarkers, {id:places.key, desc:places.val().desc, title: places.val().name, latLng: {latitude: places.val().latitud, longitude: places.val().longitud,}}]
+              
+            }
+        });
+      }
+      console.log('MARKERS LENGTH ='+newMarkers.length);
+      this.setState({currentLocation: { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.02522, longitudeDelta: 0.01821 },
+        markers: newMarkers});      
+    });
+  
   };
 
   render() {
-    let text = 'Waiting..';
-    if (this.state.errorMessage) {
-      text = this.state.errorMessage;
-    } else if (this.state.location) {
-      text = JSON.stringify(this.state.location);
-    }
-
 
     return (
-      <ScrollView style={{flex:1}} >
-        <View style={{flex:1, alignItems: 'center'}}>
-          <Text style={styles.paragraph}>{text}</Text>
-        </View>
         <View style={styles.container}>
           <MapView style={styles.mapStyle} region={this.state.currentLocation} showsUserLocation={true}>
-            {this.state.markers.map((marker, index) => (
-              <MapView.Marker 
-                identifier={marker.title}
-                coordinate={marker.latLng}
-                title={marker.title}
-              />
-            ))}
+            {this.state.markers.length>0}
+              {this.state.markers.map((marker, index) => (
+                <Marker key={marker.id}
+                  identifier={marker.id}
+                  coordinate={marker.latLng}
+                  title={marker.title}
+                  description={marker.desc}
+                />
+              ))}
           </MapView>
         </View>
-      </ScrollView> 
     );
   }
 }
