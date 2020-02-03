@@ -6,7 +6,7 @@
     "sdkVersion": "36.0.0",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier" : "uade.vitualtourguide",
+      "bundleIdentifier": "uade.vitualtourguide",
       "config": {
         "googleMapsApiKey": "AIzaSyAx5XjZ8R5qWBfCBgs1jNjl4MgUsJb-DQk"
       }
@@ -39,6 +39,9 @@
           "apiKey": "AIzaSyAx5XjZ8R5qWBfCBgs1jNjl4MgUsJb-DQk"
         }
       }
-    }
-  }
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  },
+  "displayName": "VirtualTourGuide",
+  "name": "VirtualTourGuide"
 }
